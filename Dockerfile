@@ -177,9 +177,17 @@ RUN cd /opt                                                                     
 
 
 #Install check_ipmi_sensor
-
-RUN wget https://github.com/thomas-krenn/check_ipmi_sensor_v3/blob/master/check_ipmi_sensor -O ${NAGIOS_HOME}/libexec/check_ipmi_sensor && \
-    chmod +x ${NAGIOS_HOME}/libexec/check_ipmi_sensor
+wget -O /tmp/check_ipmi_sensor_v3.tar.gz "https://github.com/thomas-krenn/check_ipmi_sensor_v3/archive/v3.13.tar.gz" && \
+mkdir -p  /tmp/check_ipmi_sensor_v3 && \
+tar \
+  --extract \
+  --file /tmp/check_ipmi_sensor_v3.tar.gz \
+  --directory /tmp/check_ipmi_sensor_v3 \
+  --strip-components 1 && \
+cp /tmp/check_ipmi_sensor_v3/check_ipmi_sensor ${NAGIOS_HOME}/libexec/check_ipmi_sensor && \
+chmod +x ${NAGIOS_HOME}/libexec/check_ipmi_sensor && \
+rm /tmp/check_ipmi_sensor_v3.tar.gz && \
+rm -rf /tmp/check_ipmi_sensor_v3 
 
 
 RUN sed -i.bak 's/.*\=www\-data//g' /etc/apache2/envvars
