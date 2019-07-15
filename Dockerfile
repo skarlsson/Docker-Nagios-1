@@ -79,7 +79,9 @@ RUN echo postfix postfix/main_mailer_type string "'Internet Site'" | debconf-set
         snmp-mibs-downloader                \
         unzip                               \
         python                              \
-                                                && \
+        freeipmi-tools                      \
+        libipc-run-perl                     \
+                                              && \
     apt-get clean && rm -Rf /var/lib/apt/lists/*
 
 RUN ( egrep -i "^${NAGIOS_GROUP}"    /etc/group || groupadd $NAGIOS_GROUP    )                         && \
@@ -172,6 +174,12 @@ RUN cd /opt                                                                     
     cp /opt/JE-Nagios-Plugins/check_mem/check_mem.pl ${NAGIOS_HOME}/libexec/           && \
     cp /opt/nagios-mssql/check_mssql_database.py ${NAGIOS_HOME}/libexec/                         && \
     cp /opt/nagios-mssql/check_mssql_server.py ${NAGIOS_HOME}/libexec/
+
+
+#Install check_ipmi_sensor
+
+RUN wget https://github.com/thomas-krenn/check_ipmi_sensor_v3/blob/master/check_ipmi_sensor -O ${NAGIOS_HOME}/libexec/check_ipmi_sensor && \
+    chmod +x ${NAGIOS_HOME}/libexec/check_ipmi_sensor
 
 
 RUN sed -i.bak 's/.*\=www\-data//g' /etc/apache2/envvars
