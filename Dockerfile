@@ -177,7 +177,7 @@ RUN cd /opt                                                                     
 
 
 #Install check_ipmi_sensor
-wget -O /tmp/check_ipmi_sensor_v3.tar.gz "https://github.com/thomas-krenn/check_ipmi_sensor_v3/archive/v3.13.tar.gz" && \
+RUN wget -O /tmp/check_ipmi_sensor_v3.tar.gz "https://github.com/thomas-krenn/check_ipmi_sensor_v3/archive/v3.13.tar.gz" && \
 mkdir -p  /tmp/check_ipmi_sensor_v3 && \
 tar \
   --extract \
